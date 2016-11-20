@@ -16,7 +16,7 @@ FACEBOOK_APP_ID = ""
 FACEBOOK_APP_SECRET = ""
 FACEBOOK_PAGE_ID = ""
 FACEBOOK_PAGE_ACCESS_TOKEN = ""
-FACEBOOK_WEBHOOK_VERIFY_TOKEN = "EAATFD6LxlrkBAOzI1q6EcKHKarcirRL08nl9wApgBXmJyVxndZBpjR7ZA72frJS89qcOlPkoOZAGEhqSgxRPamAdaynCnZCicGZC67ZBAYfw96CRbUS5bRSd8pXqOuCyzqD6ejg4VHMoLTrIZCdhGHS4101ZChhtUEh1p4cGIQfZBeQZDZD"
+FACEBOOK_WEBHOOK_VERIFY_TOKEN = "random_verification_token_never_guess_it"
 FACEBOOK_BOT_NAME = ""
 
 
@@ -26,7 +26,7 @@ def hello():
     return 'Hello Duke!'
 
 
-@app.route('/', methods=['GET'])
+@app.route('/webhook', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
     # the 'hub.challenge' value it receives in the query arguments
