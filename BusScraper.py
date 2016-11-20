@@ -8,7 +8,7 @@ import json
 import datetime
 import math
 import logging
-
+import pytz
 
 desiredStops = ["4117202", "4146366", "4158202", "4098210", "4177628", "4177630",
     "4098226", "4098230", "4158230", "4177632", "4157330", "4151494", "4098294", "4098298", "4098394", "4098218"]
@@ -118,10 +118,10 @@ def getBusTimes():
             if route["name"] not in arrivalEstimates[stop]:
                 arrivalEstimates[stop][route["name"]] = []
             #hacky to convert to datetime. careful with the -6
-            logging.info(route["arrival"])
             arrival = datetime.datetime.strptime(route["arrival"][:-6], '%Y-%m-%dT%H:%M:%S')
             logging.info(arrival)
-            fromNow = arrival - datetime.datetime.today()
+            logging.info(datetime.datetime.now())
+            fromNow = arrival - datetime.datetime.now()
             logging.info(fromNow)
             minutesFromNow = math.floor(fromNow.total_seconds()/float(60) )
             logging.info(minutesFromNow)
