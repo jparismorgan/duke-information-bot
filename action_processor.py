@@ -1,18 +1,11 @@
 from google.appengine.ext import ndb
-import re
-
-# actions = {
-#     'getBuilding': get_building,
-#     'getFood': get_food,
-#     'getEvent': get_event,
-#     'getPerson': get_person,
-#     'getDirections': get_directions
-# }
+import BusScraper
 
 class Restaurants(ndb.Model):
     name = ndb.StringProperty()
     hours = ndb.StringProperty()
     date = ndb.StringProperty()
+    value = ndb.StringProperty()
 
 class Triples(ndb.Model):
     subject = ndb.StringProperty()
@@ -20,7 +13,7 @@ class Triples(ndb.Model):
     object = ndb.StringProperty()
 
 def insert():
-    r = Restaurants(name='PandaTwo', hours='11:00am-9:00pm')
+    r = Restaurants(name='PandaExp', hours='11:00am-9:00pm', value='Bakery')
     k = r.put()
     q = Restaurants.query()
     q = q.filter(Restaurants.name == 'PandaTwo')
@@ -118,25 +111,38 @@ def find_location_of(request):
 #     return context
 #
 #
-# def get_food(request):
-#     context = request['context']
-#     entities = request['entities']
-#
-#     food = first_entity_value(entities, 'food')
-#     if food:
-#         food_name = sanitize_input(food)
-#         restaurants = get_restaurants(food_name)
-#         context['food'] = food_name
-#         content['restaurants'] = restaurants
-#
-#         if context.get('missingFood') is not None:
-#             del context['missingFood']
-#     else:
-#         context['missingFood'] = True
-#         if context.get('food') is not None:
-#             del context['food']
-#
-#     return context
+def get_food(request):
+    context = request['context']
+    entities = request['entities']
+
+    food = first_entity_value(entities, 'food')
+    if food:
+        food_name = sanitize_input(food)
+        restaurants = get_restaurants(food_name)
+        context['food'] = food_name
+        content['restaurants'] = restaurants
+
+        if context.get('missingFood') is not None:
+            del context['missingFood']
+    else:
+        context['missingFood'] = True
+        if context.get('food') is not None:
+            del context['food']
+
+    return context
+
+def getBusTimes(request):
+    context = request['context']
+    entities = request['entities']
+    return_string = BusScraper.getBusTimes()
+    if return_string != None:
+        context['bus_times'] = return_string
+    else:
+        context['bus_times'] = "There seems to be a problem with Transloc. We will ask Samuel Jackson and get back to you."
+    return context
+
+
+
 
 
 # def get_event(request):
