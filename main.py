@@ -5,6 +5,7 @@ import json
 import requests
 # Import the Flask Framework
 from flask import Flask, request
+import process
 
 
 app = Flask(__name__)
@@ -44,7 +45,10 @@ def webhook():
 
     # always return 200 to Facebook's original POST request so they know you
     # handled their request
+
+    process.messenger_post(request)
     return "OK", 200
+    #435ab3e9281b9256d2beb3125b71dd01e9a85af6
 
 
 @app.route('/', methods=['GET'])
