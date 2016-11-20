@@ -158,7 +158,17 @@ def application_error(e):
     """Return a custom 500 error."""
     return 'Sorry, unexpected error: {}'.format(e), 500
 
-actions = {}
+def send(request, response):
+    """
+    Sender function
+    """
+    # We use the fb_id as equal to session_id
+    fb_id = request['session_id']
+    text = response['text']
+    # send message
+    send_fb_message(fb_id, text)
+
+actions = {'send', send}
 
 # Setup Wit Client
 client = Wit(access_token=WIT_TOKEN, actions=actions)
