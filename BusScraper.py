@@ -138,7 +138,7 @@ def getBusTimes():
         buses[stop] = []
         for route in routes:
             times = routes[route]
-            if len(times) > 2:
+            if len(times) >= 2:
                 times = [times[0], times[1]]
             elif len(times) == 0:
                 times = ['Out of service']
