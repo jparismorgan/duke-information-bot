@@ -9,12 +9,11 @@ import json
 # Import the Flask Framework
 from flask import Flask, request
 # import process
+import action_processor
 
 from google.appengine.api import urlfetch
-from googleapiclient.discovery import build
-from oauth2client.client import GoogleCredentials
-import MySQLdb
-import webapp2
+# from googleapiclient.discovery import build
+# from oauth2client.client import GoogleCredentials
 
 app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
@@ -70,6 +69,7 @@ def page_not_found(e):
     """Return a custom 404 error."""
     return 'Sorry, Nothing at this URL.', 404
 
+"'ABP':['coffee', 'bakery', 'salad']}"
 
 @app.errorhandler(500)
 def application_error(e):
@@ -119,13 +119,13 @@ actions = {'send': send,
 # Setup Wit Client
 client = Wit(access_token=WIT_TOKEN, actions=actions)
 
-# Setup Google Cloud Datastore
-
-credentials = GoogleCredentials.get_application_default()
-service = build('compute', 'v1', credentials=credentials)
-
-PROJECT = 'duke-information-bot'
-ZONE = 'us-east1-a'
-request = service.instances().list(project=PROJECT, zone=ZONE)
-response = request.execute()
+# # Setup Google Cloud Datastore
+#
+# credentials = GoogleCredentials.get_application_default()
+# service = build('compute', 'v1', credentials=credentials)
+#
+# PROJECT = 'duke-information-bot'
+# ZONE = 'us-east1-a'
+# request = service.instances().list(project=PROJECT, zone=ZONE)
+# response = request.execute()
 

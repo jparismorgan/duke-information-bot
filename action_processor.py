@@ -1,4 +1,5 @@
 from google.appengine.ext import ndb
+import re
 
 # actions = {
 #     'getBuilding': get_building,
@@ -8,20 +9,22 @@ from google.appengine.ext import ndb
 #     'getDirections': get_directions
 # }
 
-class Person(ndb.Model):
-    name = ndb.StringProperty()
-    age = ndb.IntegerProperty()
-
 class Restaurants(ndb.Model):
     name = ndb.StringProperty()
     hours = ndb.StringProperty()
     date = ndb.StringProperty()
 
+class Triples(ndb.Model):
+    subject = ndb.StringProperty()
+    predicate = ndb.StringProperty()
+    object = ndb.StringProperty()
+
 def insert():
-    r = Restaurants(name='PandaExp', hours='11:00am-9:00pm')
+    r = Restaurants(name='PandaTwo', hours='11:00am-9:00pm')
     k = r.put()
-    q = Restaurants.all()
-    return str(q)
+    q = Restaurants.query()
+    q = q.filter(Restaurants.name == 'PandaTwo')
+    return str(q.get())
 
 def first_entity_value(entities, entity):
     if entity not in entities:
@@ -31,15 +34,63 @@ def first_entity_value(entities, entity):
         return None
     return val['value'] if isinstance(val, dict) else val
 
+def get_objects(subject, predicate):
+    subject = sanitize_input(subject)
+    predicate = sanitize_input(predicate)
+    q = Triples.query()
+    q = q.filter(Triples.subject == subject, Triples.predicate == predicate)
+    return q
 
-# def sanitize_input(input):
-#     return re.sub('\s+', '', input).lower()
-#
-#
-# def get_address(building):
-#     '''
-#     Query DB and return addresses
-#     '''
+def get_subjects(predicate, object):
+    predicate = sanitize_input(predicate)
+    q = Triples.query()
+    q = q.filter(Triples.object == object, Triples.predicate == predicate)
+    return q
+
+def create_tuple(subject, predicate, object):
+    q = Triples.query()
+    subject = sanitize_input(subject)
+    predicate = sanitize_input(predicate)
+    q = q.filter(Triples.subject == subject, Triples.predicate == predicate, Triples.object == object)
+    if q.count(1) > 0:
+        t = q.get()
+        t.subject = subject
+        t.predicate = predicate
+        t.object = object
+    else:
+        t = Triples(subject=subject,predicate=predicate,object=object)
+    return t.put()
+
+
+def sanitize_input(input):
+    return re.sub('\s+', '', input).lower()
+
+
+def get_location(place):
+    '''
+    Query DB and return addresses
+    '''
+    address = get_objects(subject=place, predicate="location").get()
+    return address
+
+def find_location_of(request):
+    context = request['context']
+    entities = request['entities']
+
+    loc = first_entity_value(entities, 'location')
+    if loc:
+        loc = sanitize_input(loc)
+        context['foundLocation'] = get_location(loc)
+        if context.get('missingLocation') is not None:
+            del context['missingLocation']
+    else:
+        context['missingLocation'] = True
+        if context.get('foundLocation') is not None:
+            del context['foundLocation']
+
+    return context
+
+
 #
 #
 # def get_restaurants(food):
@@ -139,13 +190,3 @@ def first_entity_value(entities, entity):
 #             del context['name']
 #
 #     return context
-
-# def get_objectss(subject, predicate):
-#
-#     return []
-#
-# def get_subjects(predicate, object):
-#     return []
-#
-# def create_tuple(subject, predicate, object):
-#     return False
