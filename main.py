@@ -5,6 +5,7 @@ import json
 import requests
 # Import the Flask Framework
 from flask import Flask, request
+import process
 
 
 app = Flask(__name__)
@@ -34,7 +35,8 @@ def webhook():
     data = request.get_json()
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     message = data['entry'][0]['messaging'][0]['message']['text']
-    reply(sender, message[::-1])
+    #reply(sender, message[::-1])
+    process.messenger_post(request)
     return 'Hello Duke!'
 
 
