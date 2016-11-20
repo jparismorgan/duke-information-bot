@@ -1,12 +1,13 @@
 """`main` is the top level module for your Flask application."""
+import json
+import logging
+import util
+import config
 
 # Import the Flask Framework
 from flask import Flask, request
+from flask_restful import Resource, reqparse
 
-import requests
-
-
-#Will this work?
 
 app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
@@ -16,7 +17,7 @@ FACEBOOK_APP_ID = ""
 FACEBOOK_APP_SECRET = ""
 FACEBOOK_PAGE_ID = ""
 FACEBOOK_PAGE_ACCESS_TOKEN = ""
-FACEBOOK_WEBHOOK_VERIFY_TOKEN = "random_verification_token_never_guess_it"
+FACEBOOK_WEBHOOK_VERIFY_TOKEN = "EAATFD6LxlrkBAOzI1q6EcKHKarcirRL08nl9wApgBXmJyVxndZBpjR7ZA72frJS89qcOlPkoOZAGEhqSgxRPamAdaynCnZCicGZC67ZBAYfw96CRbUS5bRSd8pXqOuCyzqD6ejg4VHMoLTrIZCdhGHS4101ZChhtUEh1p4cGIQfZBeQZDZD"
 FACEBOOK_BOT_NAME = ""
 
 
@@ -30,11 +31,25 @@ def hello():
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
     # the 'hub.challenge' value it receives in the query arguments
-    if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
-        if not request.args.get("hub.verify_token") == FACEBOOK_WEBHOOK_VERIFY_TOKEN:
-            return "Verification token mismatch", 403
-        return request.args["hub.challenge"], 200
-    return "Failed conditional: request.args.get(hub.mode) == subscribe and request.args.get(hub.challenge) ", 200
+    # if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
+    #     if not request.args.get("hub.verify_token") == FACEBOOK_WEBHOOK_VERIFY_TOKEN:
+    #         return "Verification token mismatch", 403
+    #     return request.args["hub.challenge"], 200
+    # return "Failed conditional: request.args.get(hub.mode) == subscribe and request.args.get(hub.challenge) ", 200
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('hub.mode')
+    parser.add_argument('hub.challenge')
+    parser.add_argument('hub.verify_token')
+
+    args = parser.parse_args()
+    logging.debug(args)
+
+    if args['hub.mode'] == 'subscribe':
+        if args['hub.verify_token'] == config.FACEBOOK_WEBHOOK_VERIFY_TOKEN:
+            return int(args['hub.challenge'])
+    result = {}
+    return util.jsonpify(result)
 
 
 @app.errorhandler(404)
