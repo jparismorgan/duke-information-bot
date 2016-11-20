@@ -7,7 +7,6 @@ import requests
 import json
 import datetime
 import math
-import logging
 
 
 desiredStops = ["4117202", "4146366", "4158202", "4098210", "4177628", "4177630",
