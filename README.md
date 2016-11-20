@@ -6,6 +6,16 @@ Google Knowledge graph is a powerful semantic web API that allows web scrapers t
 
 FaceBook messenger bot that allows users to seek information about Duke University campus, such as restaurants, events, and bus schedules.
 
+Sample Questions:
+
+"When is the next bus coming?"
+
+"Can I schedule a new event?"
+
+"Where is Marketplace located?"
+
+"What offerings are at Loop Pizza Grill?"
+
 ## How we built it
 
 - Python back-end with Flask framework
@@ -17,7 +27,9 @@ FaceBook messenger bot that allows users to seek information about Duke Universi
 ## Team
 
 Paris Morgan - Duke
+
 Walter Huang - Case
+
 Adam Tache - Duke
 
 ## Sample
