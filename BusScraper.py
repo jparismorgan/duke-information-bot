@@ -124,7 +124,7 @@ def getBusTimes():
 
             logging.info(datetime.datetime.now())
 
-            fromNow = arrival - datetime.datetime.now()
+            fromNow = arrival - datetime.datetime.now(pytz.timezone('America/New_York'))
 
             logging.info(fromNow)
 
