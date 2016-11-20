@@ -80,22 +80,6 @@ class Main(webapp2.RequestHandler):
     # return "OK", 200
     #435ab3e9281b9256d2beb3125b71dd01e9a85af6
 
-#old method
-def reply(user_id, msg):
-    """Sends the message to usr_id. """
-    data = {
-        "recipient": {"id": user_id},
-        "message": {"text": msg}
-    }
-    resp = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + FACEBOOK_PAGE_ACCESS_TOKEN, json=data)
-
-    # handle the response to the subrequest you made
-    if not resp.ok:
-        # log some useful info for yourself, for debugging
-        print 'jeepers. %s: %s' % (fb_response.status_code, fb_response.text)
-
-    print(resp.content)
-
 
 #new method for google cloud
 def send_fb_message(user_id, msg):
