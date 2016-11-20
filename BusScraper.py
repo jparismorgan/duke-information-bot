@@ -1,7 +1,16 @@
+####################################################################################################
+######## Written for HackDuke 2016
+######## Credit must be given to Kevin He of TabDuke for the scraping format.
+####################################################################################################
+
+
+
 import requests
 import json
 import datetime
 import math
+
+
 
 desiredStops = ["4117202", "4146366", "4158202", "4098210", "4177628", "4177630",
     "4098226", "4098230", "4158230", "4177632", "4157330", "4151494", "4098294", "4098298", "4098394", "4098218"]
@@ -57,7 +66,7 @@ activeBuses = []
 activeBusNames = {}
 stopArrivals = {}
 
-def get_bus_data():
+def getBusTimes():
     url ='https://transloc-api-1-2.p.mashape.com/routes.json?agencies=' + DUKE_AGENCY_ID + '&callback=call'
     headers = {'X-Mashape-Key': 'dbkV9N1yxOmsh7i5mjx21iNKfRDvp1qe8Q1jsnjGV0MEemwXqd', "Accept": "application/json"}
     resp = requests.get(url, headers = headers)
@@ -78,7 +87,6 @@ def get_bus_data():
     #Now get the estimated arrival times
     url = 'https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=' + DUKE_AGENCY_ID + '&callback=call'  + '&routes=' + routesRequest + '&stops=' + stopsRequest
     headers2 = {'X-Mashape-Key': 'dbkV9N1yxOmsh7i5mjx21iNKfRDvp1qe8Q1jsnjGV0MEemwXqd', "Accept": "application/json"}
-    print url
     resp = requests.get(url, headers=headers2)
     data = resp.json()
 
@@ -119,9 +127,8 @@ def get_bus_data():
     stops = []
     buses = {}
     for stop in arrivalEstimates:
-        print stop
         routes = arrivalEstimates[stop]
-        if altStopNames[stop]:
+        if stop in altStopNames:
             stop = altStopNames[stop]
         stops.append(stop)
         buses[stop] = []
@@ -135,9 +142,9 @@ def get_bus_data():
             for i in range(len(times)):
                 if times[i] <= 0:
                     times[i] = '<1'
-
+                timeString += str(times[i])
                 if (i < len(times) - 1):
-                    timeString += '&'
+                    timeString += ' & '
 
         timeString += ' min.'
 
@@ -152,6 +159,18 @@ def get_bus_data():
         if stopOrder[i] in stops:
             temp.append(stopOrder[i])
 
+    ret_string = ""
+    for stop in buses:
+        ret_string += stop + "\n"
+        for index, bus in enumerate(buses[stop]):
+            ret_string += buses[stop][index]["route"] + ': ' +buses[stop][index]["times"] + '\n'
+        # for bus in temp[stop]:
+        #     temp = bus[0]
+            #ret_string += temp
+
+    return ret_string
+    # print temp
+    # print buses
 def generateRoutesQuery():
     query = ""
     for index, q in enumerate(activeBuses):
