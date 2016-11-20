@@ -1,6 +1,7 @@
 """`main` is the top level module for your Flask application."""
 import os
 import sys
+from wit import Wit
 import json
 import logging
 import json
@@ -17,6 +18,7 @@ app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
 
+WIT_TOKEN = 'SSMXAOJXF2MR2LWBEGCMFAWJ7WSSFOEC'
 FACEBOOK_APP_ID = ""
 FACEBOOK_APP_SECRET = ""
 FACEBOOK_PAGE_ID = ""
@@ -148,3 +150,8 @@ def page_not_found(e):
 def application_error(e):
     """Return a custom 500 error."""
     return 'Sorry, unexpected error: {}'.format(e), 500
+
+actions = {}
+
+# Setup Wit Client
+client = Wit(access_token=WIT_TOKEN, actions=actions)
