@@ -25,6 +25,12 @@ def reply(user_id, msg):
         "message": {"text": msg}
     }
     resp = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + FACEBOOK_PAGE_ACCESS_TOKEN, json=data)
+
+    # handle the response to the subrequest you made
+    if not resp.ok:
+        # log some useful info for yourself, for debugging
+        print 'jeepers. %s: %s' % (fb_response.status_code, fb_response.text)
+
     print(resp.content)
 
 
@@ -35,7 +41,10 @@ def webhook():
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     message = data['entry'][0]['messaging'][0]['message']['text']
     reply(sender, message[::-1])
-    return 'Hello Duke!'
+
+    # always return 200 to Facebook's original POST request so they know you
+    # handled their request
+    return "OK", 200
 
 
 @app.route('/', methods=['GET'])
