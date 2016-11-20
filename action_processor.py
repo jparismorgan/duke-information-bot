@@ -1,13 +1,5 @@
 from google.appengine.ext import ndb
 
-# actions = {
-#     'getBuilding': get_building,
-#     'getFood': get_food,
-#     'getEvent': get_event,
-#     'getPerson': get_person,
-#     'getDirections': get_directions
-# }
-
 class Person(ndb.Model):
     name = ndb.StringProperty()
     age = ndb.IntegerProperty()
@@ -16,9 +8,10 @@ class Restaurants(ndb.Model):
     name = ndb.StringProperty()
     hours = ndb.StringProperty()
     date = ndb.StringProperty()
+    value = ndb.StringProperty()
 
 def insert():
-    r = Restaurants(name='PandaExp', hours='11:00am-9:00pm')
+    r = Restaurants(name='PandaExp', hours='11:00am-9:00pm', value='Bakery')
     k = r.put()
     q = Restaurants.all()
     return str(q)
@@ -30,7 +23,6 @@ def first_entity_value(entities, entity):
     if not val:
         return None
     return val['value'] if isinstance(val, dict) else val
-
 
 # def sanitize_input(input):
 #     return re.sub('\s+', '', input).lower()
@@ -67,25 +59,25 @@ def first_entity_value(entities, entity):
 #     return context
 #
 #
-# def get_food(request):
-#     context = request['context']
-#     entities = request['entities']
-#
-#     food = first_entity_value(entities, 'food')
-#     if food:
-#         food_name = sanitize_input(food)
-#         restaurants = get_restaurants(food_name)
-#         context['food'] = food_name
-#         content['restaurants'] = restaurants
-#
-#         if context.get('missingFood') is not None:
-#             del context['missingFood']
-#     else:
-#         context['missingFood'] = True
-#         if context.get('food') is not None:
-#             del context['food']
-#
-#     return context
+def get_food(request):
+    context = request['context']
+    entities = request['entities']
+
+    food = first_entity_value(entities, 'food')
+    if food:
+        food_name = sanitize_input(food)
+        restaurants = get_restaurants(food_name)
+        context['food'] = food_name
+        content['restaurants'] = restaurants
+
+        if context.get('missingFood') is not None:
+            del context['missingFood']
+    else:
+        context['missingFood'] = True
+        if context.get('food') is not None:
+            del context['food']
+
+    return context
 
 
 # def get_event(request):
