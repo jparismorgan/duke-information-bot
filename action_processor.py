@@ -11,7 +11,7 @@ class Restaurants(ndb.Model):
 class Triples(ndb.Model):
     subject = ndb.StringProperty()
     predicate = ndb.StringProperty()
-    object = ndb.StringProperty()
+    object = ndb.TextProperty()
 
 def updateRestaurants():
 
@@ -42,7 +42,7 @@ def create_tuple(subject, predicate, object):
     q = Triples.query()
     subject = sanitize_input(subject)
     predicate = sanitize_input(predicate)
-    q = q.filter(Triples.subject == subject, Triples.predicate == predicate, Triples.object == object)
+    q = q.filter(Triples.subject == subject)
     if q.count(1) > 0:
         t = q.get()
         t.subject = subject
@@ -61,8 +61,10 @@ def get_location(place):
     '''
     Query DB and return addresses
     '''
-    address = get_objects(subject=place, predicate="location").get()
-    return address
+    address = get_objects(subject=place, predicate="location")
+    if(address is not None):
+        return address.get()
+    return ""
 
 def find_location_of(request):
     context = request['context']
@@ -72,6 +74,29 @@ def find_location_of(request):
     if loc:
         loc = sanitize_input(loc)
         context['foundLocation'] = get_location(loc)
+        if context.get('missingLocation') is not None:
+            del context['missingLocation']
+    else:
+        context['missingLocation'] = True
+        if context.get('foundLocation') is not None:
+            del context['foundLocation']
+
+    return context
+
+def get_food_offerings(location):
+    food = get_objects(subject=place, predicate="offering")
+    if(food is not None):
+        return food.get()
+    return []
+
+def get_offerings(request):
+    context = request['context']
+    entities = request['entities']
+
+    loc = first_entity_value(entities, 'location')
+    if loc:
+        loc = sanitize_input(loc)
+        context['offerings'] = get_location(loc)
         if context.get('missingLocation') is not None:
             del context['missingLocation']
     else:

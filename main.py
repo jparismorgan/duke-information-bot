@@ -97,9 +97,9 @@ def first_entity_value(entities, entity):
         return None
     return val['value'] if isinstance(val, dict) else val
 
-@app.route('/test')
+@app.route('/update')
 def test():
-    print 'arrived'
+    print 'updating'
     RestaurantScraper.get_restaurants()
 
 
@@ -109,6 +109,7 @@ actions = {'send': send,
            'find_location_of': action_processor.find_location_of,
            'dukeSearch': action_processor.dukeSearch,
            'getBusTimes': action_processor.getBusTimes,
+           'getOfferings': action_process.getOfferings
            }
 
 # Setup Wit Client
