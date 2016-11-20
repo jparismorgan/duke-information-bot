@@ -172,7 +172,8 @@ def getBusTimes():
         #     temp = bus[0]
             #ret_string += temp
 
-    return ret_string
+    return str(arrivalEstimates) + '||||' + str(stopArrivals) + '||||' + str(data)
+    #return ret_string
     # print temp
     # print buses
 
