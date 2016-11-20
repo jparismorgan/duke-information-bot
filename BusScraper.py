@@ -171,6 +171,7 @@ def getBusTimes():
     return ret_string
     # print temp
     # print buses
+
 def generateRoutesQuery():
     query = ""
     for index, q in enumerate(activeBuses):
