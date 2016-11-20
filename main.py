@@ -11,10 +11,10 @@ from flask import Flask, request
 # import process
 
 from google.appengine.api import urlfetch
-from google.appengine.ext import ndb
-import action_processor
-
-
+from googleapiclient.discovery import build
+from oauth2client.client import GoogleCredentials
+import MySQLdb
+import webapp2
 
 app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
@@ -118,3 +118,14 @@ actions = {'send': send,
 
 # Setup Wit Client
 client = Wit(access_token=WIT_TOKEN, actions=actions)
+
+# Setup Google Cloud Datastore
+
+credentials = GoogleCredentials.get_application_default()
+service = build('compute', 'v1', credentials=credentials)
+
+PROJECT = 'duke-information-bot'
+ZONE = 'us-east1-a'
+request = service.instances().list(project=PROJECT, zone=ZONE)
+response = request.execute()
+
