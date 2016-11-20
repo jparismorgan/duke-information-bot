@@ -7,7 +7,8 @@ import requests
 import json
 import datetime
 import math
-
+import logging
+import pytz
 
 desiredStops = ["4117202", "4146366", "4158202", "4098210", "4177628", "4177630",
     "4098226", "4098230", "4158230", "4177632", "4157330", "4151494", "4098294", "4098298", "4098394", "4098218"]
@@ -105,7 +106,10 @@ def getBusTimes():
     arrivalEstimates = {}
 
     #estimate arrival times
+    logging.info(str(stopArrivals))
     for stop in stopArrivals:
+
+
         if stop not in arrivalEstimates.keys():
             arrivalEstimates[stop] = {}
 
@@ -115,13 +119,27 @@ def getBusTimes():
                 arrivalEstimates[stop][route["name"]] = []
             #hacky to convert to datetime. careful with the -6
             arrival = datetime.datetime.strptime(route["arrival"][:-6], '%Y-%m-%dT%H:%M:%S')
-            fromNow = arrival - datetime.datetime.today()
+
+            logging.info(arrival)
+
+            logging.info(datetime.datetime.now())
+
+            fromNow = arrival - datetime.datetime.now()
+
+            logging.info(fromNow)
+
+            logging.info(datetime.datetime.now(pytz.timezone('America/New_York')))
+
             minutesFromNow = math.floor(fromNow.total_seconds()/float(60) )
+
+            logging.info(minutesFromNow)
+
             arrivalEstimates[stop][route["name"]].append(minutesFromNow)
 
     #get the next two arrival times for the busses
     stops = []
     buses = {}
+    logging.warning(str(arrivalEstimates))
     for stop in arrivalEstimates:
         routes = arrivalEstimates[stop]
         if stop in altStopNames:
@@ -130,7 +148,7 @@ def getBusTimes():
         buses[stop] = []
         for route in routes:
             times = routes[route]
-            if len(times) > 2:
+            if len(times) >= 2:
                 times = [times[0], times[1]]
             elif len(times) == 0:
                 times = ['Out of service']
@@ -164,6 +182,7 @@ def getBusTimes():
         #     temp = bus[0]
             #ret_string += temp
 
+    #return str(arrivalEstimates) + '||||' + str(stopArrivals) + '||||' + str(data)
     return ret_string
     # print temp
     # print buses
@@ -183,7 +202,3 @@ def generateStopsQuery():
         if index != len(desiredStops) - 1:
             query += "%2C"
     return query
-
-
-if __name__ == "__main__":
-    get_bus_data()
