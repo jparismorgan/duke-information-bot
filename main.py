@@ -5,6 +5,7 @@ from wit import Wit
 import json
 import logging
 import json
+import RestaurantScraper
 
 # Import the Flask Framework
 from flask import Flask, request
@@ -98,7 +99,8 @@ def first_entity_value(entities, entity):
 
 @app.route('/test')
 def test():
-    return action_processor.insert()
+    print 'arrived'
+    RestaurantScraper.get_restaurants()
 
 
 actions = {'send': send,
