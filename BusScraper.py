@@ -7,6 +7,7 @@ import requests
 import json
 import datetime
 import math
+import logging
 
 
 desiredStops = ["4117202", "4146366", "4158202", "4098210", "4177628", "4177630",
@@ -68,6 +69,7 @@ def getBusTimes():
     resp = requests.get(url, headers = headers)
     data = resp.json()
     route_list = data['data']['176']
+    logging.info(route_list)
 
     for i in range(len(route_list)):
         activeBuses.append(route_list[i]['route_id'])
@@ -106,6 +108,7 @@ def getBusTimes():
 
     #estimate arrival times
     for stop in stopArrivals:
+        logging.info(stopArrivals)
         if stop not in arrivalEstimates.keys():
             arrivalEstimates[stop] = {}
 
@@ -123,6 +126,7 @@ def getBusTimes():
     stops = []
     buses = {}
     for stop in arrivalEstimates:
+
         routes = arrivalEstimates[stop]
         if stop in altStopNames:
             stop = altStopNames[stop]
@@ -183,7 +187,3 @@ def generateStopsQuery():
         if index != len(desiredStops) - 1:
             query += "%2C"
     return query
-
-
-if __name__ == "__main__":
-    get_bus_data()
