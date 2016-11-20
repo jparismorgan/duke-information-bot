@@ -122,6 +122,12 @@ def getBusTimes():
 
             logging.info(arrival)
 
+            localtz = pytz.timezone('America/New_York')
+            arrival = localtz.localize(arrival)
+
+            logging.info(arrival)
+
+
             logging.info(datetime.datetime.now())
 
             fromNow = arrival - datetime.datetime.now(pytz.timezone('America/New_York'))
