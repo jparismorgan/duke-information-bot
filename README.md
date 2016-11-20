@@ -32,6 +32,10 @@ Walter Huang - Case
 
 Adam Tache - Duke
 
-## Sample
+## Chat Bot Samples:
 
 ![alt text](http://i.imgur.com/iVpBSZu.jpg "User asking for bus times and supplied via TransLoc API")
+
+## Wit Sample:
+
+![alt text](http://i.imgur.com/zCYBInN.png "Teaching wit.ai how to handle event creation")
