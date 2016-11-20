@@ -1,12 +1,7 @@
 """`main` is the top level module for your Flask application."""
-import json
-import logging
-import util
-import config
 
 # Import the Flask Framework
 from flask import Flask, request
-from flask_restful import Resource, reqparse
 
 
 app = Flask(__name__)
@@ -29,28 +24,13 @@ def hello():
 
 @app.route('/webhook', methods=['GET'])
 def verify():
-    # when the endpoint is registered as a webhook, it must echo back
-    # the 'hub.challenge' value it receives in the query arguments
-    # if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
-    #     if not request.args.get("hub.verify_token") == FACEBOOK_WEBHOOK_VERIFY_TOKEN:
-    #         return "Verification token mismatch", 403
-    #     return request.args["hub.challenge"], 200
-    # return "Failed conditional: request.args.get(hub.mode) == subscribe and request.args.get(hub.challenge) ", 200
-
-    parser = reqparse.RequestParser()
-    parser.add_argument('hub.mode')
-    parser.add_argument('hub.challenge')
-    parser.add_argument('hub.verify_token')
-
-    args = parser.parse_args()
-    logging.debug(args)
-
-    if args['hub.mode'] == 'subscribe':
-        if args['hub.verify_token'] == config.FACEBOOK_WEBHOOK_VERIFY_TOKEN:
-            return int(args['hub.challenge'])
-    result = {}
-    return util.jsonpify(result)
-
+    #when the endpoint is registered as a webhook, it must echo back
+    #the 'hub.challenge' value it receives in the query arguments
+    if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
+        if not request.args.get("hub.verify_token") == FACEBOOK_WEBHOOK_VERIFY_TOKEN:
+            return "Verification token mismatch", 403
+        return request.args["hub.challenge"], 200
+    return "Failed conditional: request.args.get(hub.mode) == subscribe and request.args.get(hub.challenge) ", 200
 
 @app.errorhandler(404)
 def page_not_found(e):
