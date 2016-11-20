@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import logging
+import json
 
 # Import the Flask Framework
 from flask import Flask, request
@@ -78,7 +79,7 @@ def send_fb_message(user_id, msg):
     try:
         req = urlfetch.fetch(
             'https://graph.facebook.com/v2.6/me/messages?access_token=' + FACEBOOK_PAGE_ACCESS_TOKEN,
-            payload,
+            json.dumps(payload),
             urlfetch.POST,
             {'Content-Type': 'application/json'}
         )
