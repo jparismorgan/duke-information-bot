@@ -3,7 +3,6 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-
 - url: .*  # This regex directs all routes to main.app
   script: main.app
 
@@ -13,5 +12,5 @@ libraries:
 
 env_variables:
   CLOUDSQL_CONNECTION_NAME: duke-information-bot:us-east1:myinstance
-  CLOUDSQL_USER: root@localhost
+  CLOUDSQL_USER: root
   CLOUDSQL_PASSWORD: HackDuke2016!
