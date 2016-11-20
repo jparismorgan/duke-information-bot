@@ -64,13 +64,11 @@ activeBusNames = {}
 stopArrivals = {}
 
 def getBusTimes():
-    logging.info('will it log')
     url ='https://transloc-api-1-2.p.mashape.com/routes.json?agencies=' + DUKE_AGENCY_ID + '&callback=call'
     headers = {'X-Mashape-Key': 'dbkV9N1yxOmsh7i5mjx21iNKfRDvp1qe8Q1jsnjGV0MEemwXqd', "Accept": "application/json"}
     resp = requests.get(url, headers = headers)
     data = resp.json()
     route_list = data['data']['176']
-    logging.info(route_list)
 
     for i in range(len(route_list)):
         activeBuses.append(route_list[i]['route_id'])
@@ -124,7 +122,9 @@ def getBusTimes():
             arrival = datetime.datetime.strptime(route["arrival"][:-6], '%Y-%m-%dT%H:%M:%S')
             logging.info(arrival)
             fromNow = arrival - datetime.datetime.today()
+            logging.info(fromNow)
             minutesFromNow = math.floor(fromNow.total_seconds()/float(60) )
+            logging.info(minutesFromNow)
             arrivalEstimates[stop][route["name"]].append(minutesFromNow)
 
     #get the next two arrival times for the busses
