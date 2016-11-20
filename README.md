@@ -19,3 +19,7 @@ FaceBook messenger bot that allows users to seek information about Duke Universi
 Paris Morgan - Duke
 Walter Huang - Case
 Adam Tache - Duke
+
+## Sample
+
+![alt text](http://i.imgur.com/iVpBSZu.jpg "User asking for bus times and supplied via TransLoc API")
