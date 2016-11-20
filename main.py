@@ -6,7 +6,7 @@ import logging
 
 # Import the Flask Framework
 from flask import Flask, request
-import process
+# import process
 
 from google.appengine.api import urlfetch
 import MySQLdb
@@ -66,7 +66,7 @@ class Main(webapp2.RequestHandler):
             self.response.write('{}\n'.format(r))
 
 app2 = webapp2.WSGIApplication([
-    ('/', MainPage),
+    ('/', Main),
 ], debug=True)
 
 #new method for google cloud
@@ -92,7 +92,7 @@ def webhook():
     data = request.get_json()
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     message = data['entry'][0]['messaging'][0]['message']['text']
-    reply(sender, message[::-1])
+    send_fb_message(sender, message[::-1])
 
     # always return 200 to Facebook's original POST request so they know you
     # handled their request
