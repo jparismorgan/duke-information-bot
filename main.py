@@ -132,3 +132,9 @@ client = Wit(access_token=WIT_TOKEN, actions=actions)
 
 credentials = GoogleCredentials.get_application_default()
 service = build('compute', 'v1', credentials=credentials)
+
+PROJECT = 'duke-information-bot'
+ZONE = 'us-east1-a'
+request = service.instances().list(project=PROJECT, zone=ZONE)
+response = request.execute()
+
