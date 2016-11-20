@@ -94,7 +94,7 @@ def createEvent(request):
     entities = request['entities']
     intent = entities['intent']
     datetime = entities['datetime']
-    message_body = entities['message_body']
+    message_body = entities['search_query']
     location = entities['location']
 
     subject = sanitize_input(message_body)
