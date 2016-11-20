@@ -5,15 +5,16 @@ from wit import Wit
 import json
 import logging
 import json
-#import action_processor
 
 # Import the Flask Framework
 from flask import Flask, request
 # import process
 
 from google.appengine.api import urlfetch
-import MySQLdb
-import webapp2
+from google.appengine.ext import ndb
+import action_processor
+
+
 
 app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
@@ -26,52 +27,6 @@ FACEBOOK_PAGE_ID = ""
 FACEBOOK_PAGE_ACCESS_TOKEN = "EAATFD6LxlrkBAHcZBCsZAiCV1lZAbWisuudFNhmOscxRPSUUUFHVoWbDm8rxf4tiUf0YyKccPkteMjbEuVsIKlQzwZAqpUFMn2NqWdU0KDnyDt1kfNnHTlpMDZCEIvczukaQFlopgiuMvSB0MkmsPqiO6v4lZABZBwAH19VWZCtg1wZDZD"
 FACEBOOK_WEBHOOK_VERIFY_TOKEN = "secret"
 FACEBOOK_BOT_NAME = ""
-
-CLOUDSQL_CONNECTION_NAME = os.environ.get('CLOUDSQL_CONNECTION_NAME')
-CLOUDSQL_USER = os.environ.get('CLOUDSQL_USER')
-CLOUDSQL_PASSWORD = os.environ.get('CLOUDSQL_PASSWORD')
-
-def connect_to_cloudsql():
-    # When deployed to App Engine, the `SERVER_SOFTWARE` environment variable
-    # will be set to 'Google App Engine/version'.
-    if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
-        # Connect using the unix socket located at
-        # /cloudsql/cloudsql-connection-name.
-        cloudsql_unix_socket = os.path.join(
-            '/cloudsql', CLOUDSQL_CONNECTION_NAME)
-
-        db = MySQLdb.connect(
-            unix_socket=cloudsql_unix_socket,
-            user=CLOUDSQL_USER,
-            passwd=CLOUDSQL_PASSWORD)
-
-    # If the unix socket is unavailable, then try to connect using TCP. This
-    # will work if you're running a local MySQL server or using the Cloud SQL
-    # proxy, for example:
-    #
-    #   $ cloud_sql_proxy -instances=your-connection-name=tcp:3306
-    #
-    else:
-        db = MySQLdb.connect(
-            host='127.0.0.1', user=CLOUDSQL_USER, passwd=CLOUDSQL_PASSWORD)
-
-    return db
-
-class Main(webapp2.RequestHandler):
-    def get(self):
-        """Simple request handler that shows all of the MySQL variables."""
-        self.response.headers['Content-Type'] = 'text/plain'
-
-        db = connect_to_cloudsql()
-        cursor = db.cursor()
-        cursor.execute('SHOW VARIABLES')
-
-        for r in cursor.fetchall():
-            self.response.write('{}\n'.format(r))
-
-app2 = webapp2.WSGIApplication([
-    ('/', Main),
-], debug=True)
 
 def send_fb_message(user_id, msg):
     """sends message 'msg' to user 'user_id'"""
@@ -89,32 +44,6 @@ def send_fb_message(user_id, msg):
         logging.debug(req.content)
     except urlfetch.Error as e:
         logging.error(e.message)
-
-# def messaging_events(payload):
-#   """Generate tuples of (sender_id, message_text) from the
-#   provided payload.
-#   """
-#   data = json.loads(payload)
-#   messaging_events = data["entry"][0]["messaging"]
-#   for event in messaging_events:
-#     if "message" in event and "text" in event["message"]:
-#       yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
-#     else:
-#       yield event["sender"]["id"], "I'm sorry, there was an error processing your request. source: messaging_events()"
-#
-# @app.route('/', methods=['POST'])
-# def webhook():
-#     """Return a friendly HTTP greeting."""
-#     data = request.get_json()
-#     for sender, message in messaging_events(data):
-#         #do something with sender and message
-#         send_fb_message(sender, message)
-#     return "ok"
-#
-#     # always return 200 to Facebook's original POST request so they know you handled their request
-#    # process.messenger_post(request)
-#     return "OK", 200
-#     #435ab3e9281b9256d2beb3125b71dd01e9a85af6
 
 @app.route('/', methods=['POST'])
 def webhook():
@@ -151,6 +80,7 @@ def send(request, response):
     """
     Sender function
     """
+
     # We use the fb_id as equal to session_id
     fb_id = request['session_id']
     text = response['text']
@@ -158,15 +88,32 @@ def send(request, response):
     logging.info(text)
     send_fb_message(fb_id, text)
 
-def doAction(request):
+def dukeSearch(request):
     context = request['context']
     entities = request['entities']
+    query = first_entity_value(entities, 'search_phrase')
+    str.replace(query, ' ', '%20')
+    context['search_query'] = query
     return context
 
+def first_entity_value(entities, entity):
+    if entity not in entities:
+        return None
+    val = entities[entity][0]['value']
+    if not val:
+        return None
+    return val['value'] if isinstance(val, dict) else val
+
+@app.route('/test')
+def test():
+    return action_processor.insert()
+
+
 actions = {'send': send,
-           'createEvent': doAction,
-           'findEvent': doAction,
-           'findFood': doAction
+           'createEvent': dukeSearch,
+           'findEvent': dukeSearch,
+           'findFood': dukeSearch,
+           'dukeSearch': dukeSearch
            }
 
 # Setup Wit Client
