@@ -107,8 +107,10 @@ def getBusTimes():
     arrivalEstimates = {}
 
     #estimate arrival times
+    logging.info(str(stopArrivals))
     for stop in stopArrivals:
-        logging.info(stopArrivals)
+
+
         if stop not in arrivalEstimates.keys():
             arrivalEstimates[stop] = {}
 
@@ -125,6 +127,7 @@ def getBusTimes():
     #get the next two arrival times for the busses
     stops = []
     buses = {}
+    logging.info(str(arrivalEstimates))
     for stop in arrivalEstimates:
 
         routes = arrivalEstimates[stop]
