@@ -119,13 +119,21 @@ def getBusTimes():
                 arrivalEstimates[stop][route["name"]] = []
             #hacky to convert to datetime. careful with the -6
             arrival = datetime.datetime.strptime(route["arrival"][:-6], '%Y-%m-%dT%H:%M:%S')
+
             logging.info(arrival)
+
             logging.info(datetime.datetime.now())
+
             fromNow = arrival - datetime.datetime.now()
+
             logging.info(fromNow)
-            logging.info(datetime.now(pytz.timezone('America/New_York')))
+
+            logging.info(datetime.datetime.now(pytz.timezone('America/New_York')))
+
             minutesFromNow = math.floor(fromNow.total_seconds()/float(60) )
+
             logging.info(minutesFromNow)
+
             arrivalEstimates[stop][route["name"]].append(minutesFromNow)
 
     #get the next two arrival times for the busses
@@ -133,7 +141,6 @@ def getBusTimes():
     buses = {}
     logging.warning(str(arrivalEstimates))
     for stop in arrivalEstimates:
-        logging.warning(str(stop))
         routes = arrivalEstimates[stop]
         if stop in altStopNames:
             stop = altStopNames[stop]
@@ -175,8 +182,8 @@ def getBusTimes():
         #     temp = bus[0]
             #ret_string += temp
 
-    return str(arrivalEstimates) + '||||' + str(stopArrivals) + '||||' + str(data)
-    #return ret_string
+    #return str(arrivalEstimates) + '||||' + str(stopArrivals) + '||||' + str(data)
+    return ret_string
     # print temp
     # print buses
 
