@@ -3,15 +3,15 @@ import re
 import BusScraper
 
 class Restaurants(ndb.Model):
-    name = ndb.StringProperty()
-    hours = ndb.StringProperty()
-    date = ndb.StringProperty()
-    value = ndb.StringProperty()
+    name = ndb.TextProperty()
+    hours = ndb.TextProperty()
+    date = ndb.TextProperty()
+    value = ndb.TextProperty()
 
 class Triples(ndb.Model):
-    subject = ndb.StringProperty()
-    predicate = ndb.StringProperty()
-    object = ndb.StringProperty()
+    subject = ndb.TextProperty()
+    predicate = ndb.TextProperty()
+    object = ndb.TextProperty()
 
 def updateRestaurants():
 
