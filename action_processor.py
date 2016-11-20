@@ -13,12 +13,9 @@ class Triples(ndb.Model):
     predicate = ndb.StringProperty()
     object = ndb.StringProperty()
 
-def insert():
-    r = Restaurants(name='PandaExp', hours='11:00am-9:00pm', value='Bakery')
-    k = r.put()
-    q = Restaurants.query()
-    q = q.filter(Restaurants.name == 'PandaTwo')
-    return str(q.get())
+def updateRestaurants():
+
+    return "Done"
 
 def first_entity_value(entities, entity):
     if entity not in entities:
@@ -93,7 +90,6 @@ def dukeSearch(request):
     return context
 
 #
-#
 # def get_restaurants(food):
 #     '''
 #     Query DB and return restaurant names with addresses
@@ -158,9 +154,6 @@ def getBusTimes(request):
     else:
         context['bus_times'] = "There seems to be a problem with Transloc. We will ask Samuel Jackson and get back to you."
     return context
-
-
-
 
 
 # def get_event(request):

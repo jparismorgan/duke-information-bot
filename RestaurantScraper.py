@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import urllib
 import datetime
+import action_processor
+import json
 
 
 def clean_date(str_date, day):
@@ -29,7 +31,7 @@ restaurants = {"Au Bon Pain": ["bakery","sandwich","salad","soup", "vegetarian"]
 			   "Dame's Express": ["sandwich", "salad", "dessert", "chicken", "waffles"],
 			   "Divinity Cafe": ["fruit", "brunch", "sandwich", "salad", "dessert", "vegetarian", "grilled cheese", "tomato soup", "stir fry", "wraps"],
 			   "Dolce Vita": ["sandwich", "salad", "dessert", "coffee"],
-			   "Freeman Center": ["sandwich", "salad", "dessert", "mac 'n cheese", "macaroni"],
+			   "Freeman Center for Jewish Life": ["sandwich", "salad", "dessert", "mac 'n cheese", "macaroni"],
 			   "Ginger and Soy": ["asian", "bowls", "rice", "chicken", "dumplings", "poke bowl"],
 			   "Gyotaku": ["asian", "sushi", "fish"],
 			   "Il Forno": ["italian", "pizza", "pasta", "subs", "salad"],
@@ -65,7 +67,7 @@ locations = {"Au Bon Pain": "416 Chapel Dr.",
 			 "Dame's Express": "1917 Yearby Ave, Durham, NC 27705",
 			 "Divinity Cafe": "407 Chapel Dr, Durham, NC 27708",
 			 "Dolce Vita": "610 Market St, Chapel Hill, NC 27516",
-			 "Freeman Center": "Freeman Center for Jewish Life, Durham, NC 27705",
+			 "Freeman Center for Jewish Life": "Freeman Center for Jewish Life, Durham, NC 27705",
 			 "Ginger and Soy": "416 Chapel Dr, Durham",
 			 "Gyotaku": "416 Chapel Dr, Durham",
 			 "Il Forno": "416 Chapel Dr, Durham",
@@ -115,8 +117,14 @@ def get_restaurants():
             continue
         for anchor in restaurant.find_all('a'):
             name = anchor.text
-            values = restaurants[name]
-            location = locations[name]
+            print name
+            if name in restaurants:
+                values = restaurants[name]
+                action_processor.create_tuple(name, 'offerings', json.dumps(values))
+
+            if name in locations:
+                location = locations[name]
+                action_processor.create_tuple(name, 'location', json.dumps(locations))
 
             dayOne = time_data[timeIndex]
             dayOneStart, dayOneEnd = clean_date(dayOne.text, dates[0])
@@ -138,7 +146,6 @@ def get_restaurants():
 
 
             timeIndex = timeIndex + 5
-
 
 if __name__ == '__main__':
     get_restaurants()
