@@ -1,4 +1,5 @@
 from google.appengine.ext import ndb
+import re
 import BusScraper
 
 class Restaurants(ndb.Model):
@@ -83,6 +84,13 @@ def find_location_of(request):
 
     return context
 
+def dukeSearch(request):
+    context = request['context']
+    entities = request['entities']
+    query = first_entity_value(entities, 'search_phrase')
+    str.replace(query, ' ', '%20')
+    context['search_query'] = query
+    return context
 
 #
 #
@@ -118,9 +126,9 @@ def get_food(request):
     food = first_entity_value(entities, 'food')
     if food:
         food_name = sanitize_input(food)
-        restaurants = get_restaurants(food_name)
+        restaurants = get_location(food_name)
         context['food'] = food_name
-        content['restaurants'] = restaurants
+        context['restaurants'] = restaurants
 
         if context.get('missingFood') is not None:
             del context['missingFood']

@@ -88,14 +88,6 @@ def send(request, response):
     logging.info(text)
     send_fb_message(fb_id, text)
 
-def dukeSearch(request):
-    context = request['context']
-    entities = request['entities']
-    query = first_entity_value(entities, 'search_phrase')
-    str.replace(query, ' ', '%20')
-    context['search_query'] = query
-    return context
-
 def first_entity_value(entities, entity):
     if entity not in entities:
         return None
@@ -110,10 +102,10 @@ def test():
 
 
 actions = {'send': send,
-           'createEvent': dukeSearch,
-           'findEvent': dukeSearch,
-           'findFood': dukeSearch,
-           'dukeSearch': dukeSearch
+           'createEvent': action_processor.dukeSearch,
+           'findEvent': action_processor.dukeSearch,
+           'find_location_of': action_processor.find_location_of,
+           'dukeSearch': action_processor.dukeSearch
            }
 
 # Setup Wit Client
