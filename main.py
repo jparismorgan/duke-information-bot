@@ -26,7 +26,7 @@ def hello():
     return 'Hello Duke!'
 
 
-@app.route('/webhook')
+@app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
     # the 'hub.challenge' value it receives in the query arguments
