@@ -7,6 +7,7 @@ import requests
 import json
 import datetime
 import math
+import logging
 
 
 desiredStops = ["4117202", "4146366", "4158202", "4098210", "4177628", "4177630",
@@ -63,6 +64,7 @@ activeBusNames = {}
 stopArrivals = {}
 
 def getBusTimes():
+    logging.info('will it log')
     url ='https://transloc-api-1-2.p.mashape.com/routes.json?agencies=' + DUKE_AGENCY_ID + '&callback=call'
     headers = {'X-Mashape-Key': 'dbkV9N1yxOmsh7i5mjx21iNKfRDvp1qe8Q1jsnjGV0MEemwXqd', "Accept": "application/json"}
     resp = requests.get(url, headers = headers)
