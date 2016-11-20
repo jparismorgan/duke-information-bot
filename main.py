@@ -109,7 +109,7 @@ actions = {'send': send,
            'find_location_of': action_processor.find_location_of,
            'dukeSearch': action_processor.dukeSearch,
            'getBusTimes': action_processor.getBusTimes,
-           'getOfferings': action_process.getOfferings
+           'getOfferings': action_process.get_offerings
            }
 
 # Setup Wit Client
