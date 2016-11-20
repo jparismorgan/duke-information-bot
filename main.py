@@ -88,14 +88,6 @@ def send(request, response):
     logging.info(text)
     send_fb_message(fb_id, text)
 
-def dukeSearch(request):
-    context = request['context']
-    entities = request['entities']
-    query = first_entity_value(entities, 'search_phrase')
-    if query != None:
-        str.replace(query, ' ', '%20')
-    context['search_query'] = query
-    return context
 
 def first_entity_value(entities, entity):
     if entity not in entities:
