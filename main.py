@@ -114,7 +114,8 @@ actions = {'send': send,
            'createEvent': dukeSearch,
            'findEvent': dukeSearch,
            'findFood': dukeSearch,
-           'dukeSearch': dukeSearch
+           'dukeSearch': dukeSearch,
+           'getBusTimes': getBusTimes,
            }
 
 # Setup Wit Client
