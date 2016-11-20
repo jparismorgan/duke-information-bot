@@ -2,13 +2,8 @@ import json
 import logging
 import os
 import requests
-import requests_toolbelt.adapters.appengine
 import sys
 import uuid
-
-# Use the App Engine Requests adapter. This makes sure that Requests uses
-# URLFetch.
-requests_toolbelt.adapters.appengine.monkeypatch()
 
 WIT_API_HOST = os.getenv('WIT_URL', 'https://api.wit.ai')
 WIT_API_VERSION = os.getenv('WIT_API_VERSION', '20160516')

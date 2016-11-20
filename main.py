@@ -1,9 +1,11 @@
 """`main` is the top level module for your Flask application."""
 import os
 import sys
+from wit import Wit
 import json
 import logging
 import json
+import action_processor
 
 # Import the Flask Framework
 from flask import Flask, request
@@ -17,6 +19,7 @@ app = Flask(__name__)
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
 
+WIT_TOKEN = 'SSMXAOJXF2MR2LWBEGCMFAWJ7WSSFOEC'
 FACEBOOK_APP_ID = ""
 FACEBOOK_APP_SECRET = ""
 FACEBOOK_PAGE_ID = ""
@@ -87,6 +90,13 @@ def send_fb_message(user_id, msg):
     except urlfetch.Error as e:
         logging.error(e.message)
 
+def send(request, response):
+    # fb_id as session_id
+    fb_id = request['session_id']
+    text = response['text']
+    # send message
+    send_fb_message(fb_id, text)
+
 # def messaging_events(payload):
 #   """Generate tuples of (sender_id, message_text) from the
 #   provided payload.
@@ -107,11 +117,11 @@ def send_fb_message(user_id, msg):
 #         #do something with sender and message
 #         send_fb_message(sender, message)
 #     return "ok"
-
-    # always return 200 to Facebook's original POST request so they know you handled their request
-   # process.messenger_post(request)
-   # return "OK", 200
-    #435ab3e9281b9256d2beb3125b71dd01e9a85af6
+#
+#     # always return 200 to Facebook's original POST request so they know you handled their request
+#    # process.messenger_post(request)
+#     return "OK", 200
+#     #435ab3e9281b9256d2beb3125b71dd01e9a85af6
 
 @app.route('/', methods=['POST'])
 def webhook():
@@ -142,3 +152,8 @@ def page_not_found(e):
 def application_error(e):
     """Return a custom 500 error."""
     return 'Sorry, unexpected error: {}'.format(e), 500
+
+actions = {}
+
+# Setup Wit Client
+client = Wit(access_token=WIT_TOKEN, actions=actions)
