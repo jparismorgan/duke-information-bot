@@ -23,7 +23,7 @@ FACEBOOK_BOT_NAME = ""
 @app.route('/', methods=['POST'])
 def hello():
     """Return a friendly HTTP greeting."""
-    return 'Hello World!'
+    return 'Hello Duke!'
 
 
 @app.route('/webhook')
