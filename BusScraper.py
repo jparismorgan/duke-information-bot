@@ -128,9 +128,9 @@ def getBusTimes():
     #get the next two arrival times for the busses
     stops = []
     buses = {}
-    logging.info(str(arrivalEstimates))
+    logging.warning(str(arrivalEstimates))
     for stop in arrivalEstimates:
-
+        logging.warning(str(stop))
         routes = arrivalEstimates[stop]
         if stop in altStopNames:
             stop = altStopNames[stop]
