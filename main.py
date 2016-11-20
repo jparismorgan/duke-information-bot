@@ -34,8 +34,7 @@ def verify():
         if not request.args.get("hub.verify_token") == FACEBOOK_WEBHOOK_VERIFY_TOKEN:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
-
-    return "Test", 200
+    return "Failed conditional: request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge") ", 200
 
 
 @app.errorhandler(404)
