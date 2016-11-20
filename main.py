@@ -12,6 +12,8 @@ from flask import Flask, request
 # import process
 
 from google.appengine.api import urlfetch
+from googleapiclient.discovery import build
+from oauth2client.client import GoogleCredentials
 import MySQLdb
 import webapp2
 
@@ -26,52 +28,6 @@ FACEBOOK_PAGE_ID = ""
 FACEBOOK_PAGE_ACCESS_TOKEN = "EAATFD6LxlrkBAHcZBCsZAiCV1lZAbWisuudFNhmOscxRPSUUUFHVoWbDm8rxf4tiUf0YyKccPkteMjbEuVsIKlQzwZAqpUFMn2NqWdU0KDnyDt1kfNnHTlpMDZCEIvczukaQFlopgiuMvSB0MkmsPqiO6v4lZABZBwAH19VWZCtg1wZDZD"
 FACEBOOK_WEBHOOK_VERIFY_TOKEN = "secret"
 FACEBOOK_BOT_NAME = ""
-
-CLOUDSQL_CONNECTION_NAME = os.environ.get('CLOUDSQL_CONNECTION_NAME')
-CLOUDSQL_USER = os.environ.get('CLOUDSQL_USER')
-CLOUDSQL_PASSWORD = os.environ.get('CLOUDSQL_PASSWORD')
-
-def connect_to_cloudsql():
-    # When deployed to App Engine, the `SERVER_SOFTWARE` environment variable
-    # will be set to 'Google App Engine/version'.
-    if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
-        # Connect using the unix socket located at
-        # /cloudsql/cloudsql-connection-name.
-        cloudsql_unix_socket = os.path.join(
-            '/cloudsql', CLOUDSQL_CONNECTION_NAME)
-
-        db = MySQLdb.connect(
-            unix_socket=cloudsql_unix_socket,
-            user=CLOUDSQL_USER,
-            passwd=CLOUDSQL_PASSWORD)
-
-    # If the unix socket is unavailable, then try to connect using TCP. This
-    # will work if you're running a local MySQL server or using the Cloud SQL
-    # proxy, for example:
-    #
-    #   $ cloud_sql_proxy -instances=your-connection-name=tcp:3306
-    #
-    else:
-        db = MySQLdb.connect(
-            host='127.0.0.1', user=CLOUDSQL_USER, passwd=CLOUDSQL_PASSWORD)
-
-    return db
-
-class Main(webapp2.RequestHandler):
-    def get(self):
-        """Simple request handler that shows all of the MySQL variables."""
-        self.response.headers['Content-Type'] = 'text/plain'
-
-        db = connect_to_cloudsql()
-        cursor = db.cursor()
-        cursor.execute('SHOW VARIABLES')
-
-        for r in cursor.fetchall():
-            self.response.write('{}\n'.format(r))
-
-app2 = webapp2.WSGIApplication([
-    ('/', Main),
-], debug=True)
 
 def send_fb_message(user_id, msg):
     """sends message 'msg' to user 'user_id'"""
@@ -171,3 +127,8 @@ actions = {'send': send,
 
 # Setup Wit Client
 client = Wit(access_token=WIT_TOKEN, actions=actions)
+
+# Setup Google Cloud Datastore
+
+credentials = GoogleCredentials.get_application_default()
+service = build('compute', 'v1', credentials=credentials)

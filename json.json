@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "duke-information-bot",
+  "private_key_id": "6b634e9ebcbe5ab7ef5e722bfd005447d33a5903",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDCnXL/Z/OAq0fT\nJS5JrJ5AFUPHhKygacrwTAzDu5ZCGItJ4vXewZ3XzNtY+DveNkZa9oyGePVLiDyI\nMrloRVFDoBlNQdpfbxVJOLVGEQc5A6TZ8Kr+Nzfd5iepD479GmtH6RP8B8qWStM4\n4FqXcTZMhmfRcENaSJwKdIR1pHlVbrbsJXvspoa2Pa0JhU+yKvvsA2PaHHZaa+oL\nwuDUQ9BuahjOsvybL2XlSW3BvV4SdS6aHeUrAcW5c/KACWr9tw5g8THEAaA1u/Ya\n3pRV/x4dYQ2SVVYm0Y3o5n07O38BP5IJQJHZeJ0Q9nQOjRmjOV27V6ZG/0Etl1X5\nZKgZFaKLAgMBAAECggEBALJYS3xXLMTrMcUDO6n0cIlVc2mx4eiXSoxvhPsSOx6T\nE4JAZQUf9aA/cXvU8DgxEMRnUFwjGNeBH8fIhDRT4abRXp54DMCMMbuKJkTxcecD\nudynOmwA+kd1lT7OrUCxJ0MdC11ZXoPgSjTDFQHXk+UI/rbl5DMmeyjxojmU4kQw\nuWnDXbn7oE0DFr+tONi7P9KaFBA/1X0+xRxcBxZY0BcedZdlnIa0jhlVMsLB3Dju\n1fF66/Ihg2WW+CL6+n4ziJderZyDTOIbOUypEqVkQmONC/pJXeYniKzAevAPMJvB\nSiR+BZWrzd7Hp12CsYjGky1ZUAptobFmXy5CZOImIIECgYEA8DIlx6qU6OGEVXG+\nb+PbsCH5A/zdE7EYEdgai0t7gNj/TJA02flKzOdsTJMGBB2iyaXGinmK/cz+WTOl\nD0LEE8zjDo4frjtXmh3huSN+7v+aks6l5YhWE53Dtf4zucqvIViXnagxFFRQHSFN\nUfUsMLmp3jnuw3T3kXLoTO0aDiECgYEAz2uKAkYjVse1cnx8983iEfkBdFK07jQ+\nJ7pBYQHqekK0Ut975L0mzv+j1zGCgjm5xSilwxHpIUmaXDUy8vo45fPJXrXmaAts\nuZggMhme4kNu3FQRrqqvJQ7zyg7S5RfMLzoRFDspoUuTMQt4aGFRD7KW5xeNOs/W\nb8ZSzvlu4ysCgYEAhDK1hG0oQ/xK/1P5AlAgi5JHIaC8dKgVnUyZX20N7l6ANL1x\nuT5xotEEVCjfOMiu3dj1qyU2EHYQzzuTbxDKJjOwDETAvv4+Or6Ti3gz1oqron1F\n5UziQy2jl7ju8yTQusOtvsHhMVUuOroneiI8Th0BlyO/e6gW0eCyZhRhMMECgYAP\nbdVvQ95fFy31HTOCj2sQoTAtgfV5fqNc+yrf12+kto+JVpx1sGhRn4yFdmZZ34dl\nFhf2gb+QvVPhJgfrMRfIazEAfZFtDeSBjcJfV66M8C0v8IT8NDAhFpKl5iJj7jg/\nDxe0JI59NAz36f2D7jFEdKlq+UKFLG6sE9mXEdDgzwKBgQCbpROp1PeUV7Kyp2wE\nbDpLFKWpxpJoqGjUV4RMdT4CIdya84TAhroArBrTYQGPamO+UbE5TgcpSWCVTGXD\nlkbNKMUh5TFWC7w5iRd8sgiEa5ECkg0+rq13RStBdDF1EGeir9QgPLuKteX4Pgid\nWH9uecLFZjGW1KTcrHbQEqnlGw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "duke-information-bot@appspot.gserviceaccount.com",
+  "client_id": "108593690220499797196",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/duke-information-bot%40appspot.gserviceaccount.com"
+}
