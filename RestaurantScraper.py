@@ -107,9 +107,7 @@ def get_restaurants():
             what = 0
         if (len(dates) < 5):
             dates.append(t.text[t.text.find("y") + 1:len(t.text)])
-    print time_data
-    print dates
-    print restaurant_data
+
     timeIndex = 0
     for restaurant in restaurant_data:
         if (restaurant == 'Restaurant'):
@@ -117,14 +115,15 @@ def get_restaurants():
             continue
         for anchor in restaurant.find_all('a'):
             name = anchor.text
-            print name
             if name in restaurants:
                 values = restaurants[name]
+                print values
                 action_processor.create_tuple(name, 'offerings', json.dumps(values))
 
             if name in locations:
                 location = locations[name]
-                action_processor.create_tuple(name, 'location', json.dumps(locations))
+                print location
+                action_processor.create_tuple(name, 'location', json.dumps(location))
 
             dayOne = time_data[timeIndex]
             dayOneStart, dayOneEnd = clean_date(dayOne.text, dates[0])
@@ -133,19 +132,21 @@ def get_restaurants():
             #To store in DB, use unicode(dayOneStart), and then str(that) if you need to
 
             dayTwo = dayOne.next_sibling
-            dayTwoStart, dayTwoEnd = clean_date(dayOne.text, dates[0])
+            dayTwoStart, dayTwoEnd = clean_date(dayOne.text, dates[1])
 
             dayThree = dayTwo.next_sibling
-            dayThreeStart, dayThreeEnd = clean_date(dayOne.text, dates[0])
+            dayThreeStart, dayThreeEnd = clean_date(dayOne.text, dates[2])
 
             dayFour = dayThree.next_sibling
-            dayFourStart, dayFourEnd = clean_date(dayOne.text, dates[0])
+            dayFourStart, dayFourEnd = clean_date(dayOne.text, dates[3])
 
             dayFive = dayFour.next_sibling
-            dayFiveStart, dayFiveEnd = clean_date(dayOne.text, dates[0])
+            dayFiveStart, dayFiveEnd = clean_date(dayOne.text, dates[4])
 
 
             timeIndex = timeIndex + 5
+
+    return "done"
 
 if __name__ == '__main__':
     get_restaurants()
