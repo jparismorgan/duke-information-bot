@@ -97,46 +97,41 @@ def send(request, response):
     # send message
     send_fb_message(fb_id, text)
 
-def messaging_events(payload):
-  """Generate tuples of (sender_id, message_text) from the
-  provided payload.
-  """
-  data = json.loads(payload)
-  messaging_events = data["entry"][0]["messaging"]
-  for event in messaging_events:
-    if "message" in event and "text" in event["message"]:
-      yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
-    else:
-      yield event["sender"]["id"], "I'm sorry, there was an error processing your request. source: messaging_events()"
+# def messaging_events(payload):
+#   """Generate tuples of (sender_id, message_text) from the
+#   provided payload.
+#   """
+#   data = json.loads(payload)
+#   messaging_events = data["entry"][0]["messaging"]
+#   for event in messaging_events:
+#     if "message" in event and "text" in event["message"]:
+#       yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
+#     else:
+#       yield event["sender"]["id"], "I'm sorry, there was an error processing your request. source: messaging_events()"
+#
+# @app.route('/', methods=['POST'])
+# def webhook():
+#     """Return a friendly HTTP greeting."""
+#     data = request.get_json()
+#     for sender, message in messaging_events(data):
+#         #do something with sender and message
+#         send_fb_message(sender, message)
+#     return "ok"
+#
+#     # always return 200 to Facebook's original POST request so they know you handled their request
+#    # process.messenger_post(request)
+#     return "OK", 200
+#     #435ab3e9281b9256d2beb3125b71dd01e9a85af6
 
 @app.route('/', methods=['POST'])
 def webhook():
     """Return a friendly HTTP greeting."""
     data = request.get_json()
-    for sender, message in messaging_events(data):
-        #do something with sender and message
-        send_fb_message(sender, message)
-    return "ok"
-
+    sender = data['entry'][0]['messaging'][0]['sender']['id']
+    message = data['entry'][0]['messaging'][0]['message']['text']
+    send_fb_message(sender, message[::-1])
     # always return 200 to Facebook's original POST request so they know you handled their request
-   # process.messenger_post(request)
     return "OK", 200
-    #435ab3e9281b9256d2beb3125b71dd01e9a85af6
-
-# @app.route('/', methods=['POST'])
-# def webhook():
-#     """Return a friendly HTTP greeting."""
-#     data = request.get_json()
-#     sender = data['entry'][0]['messaging'][0]['sender']['id']
-#     message = data['entry'][0]['messaging'][0]['message']['text']
-#     send_fb_message(sender, message[::-1])
-#
-#     # always return 200 to Facebook's original POST request so they know you
-#     # handled their request
-#
-#    # process.messenger_post(request)
-#     return "OK", 200
-    #435ab3e9281b9256d2beb3125b71dd01e9a85af6
 
 @app.route('/', methods=['GET'])
 def verify():
