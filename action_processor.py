@@ -3,14 +3,14 @@ import re
 import BusScraper
 
 class Restaurants(ndb.Model):
-    name = ndb.TextProperty()
-    hours = ndb.TextProperty()
-    date = ndb.TextProperty()
-    value = ndb.TextProperty()
+    name = ndb.StringProperty()
+    hours = ndb.StringProperty()
+    date = ndb.StringProperty()
+    value = ndb.StringProperty()
 
 class Triples(ndb.Model):
-    subject = ndb.TextProperty()
-    predicate = ndb.TextProperty()
+    subject = ndb.StringProperty()
+    predicate = ndb.StringProperty()
     object = ndb.TextProperty()
 
 def updateRestaurants():
@@ -42,7 +42,7 @@ def create_tuple(subject, predicate, object):
     q = Triples.query()
     subject = sanitize_input(subject)
     predicate = sanitize_input(predicate)
-    q = q.filter(Triples.subject == subject, Triples.predicate == predicate, Triples.object == object)
+    q = q.filter(Triples.subject == subject)
     if q.count(1) > 0:
         t = q.get()
         t.subject = subject
