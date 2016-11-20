@@ -120,7 +120,9 @@ def getBusTimes():
             if route["name"] not in arrivalEstimates[stop]:
                 arrivalEstimates[stop][route["name"]] = []
             #hacky to convert to datetime. careful with the -6
+            logging.info(route["arrival"])
             arrival = datetime.datetime.strptime(route["arrival"][:-6], '%Y-%m-%dT%H:%M:%S')
+            logging.info(arrival)
             fromNow = arrival - datetime.datetime.today()
             minutesFromNow = math.floor(fromNow.total_seconds()/float(60) )
             arrivalEstimates[stop][route["name"]].append(minutesFromNow)
