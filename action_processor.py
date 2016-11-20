@@ -89,6 +89,27 @@ def dukeSearch(request):
     context['search_query'] = query
     return context
 
+def createEvent(request):
+    context = request['context']
+    entities = request['entities']
+    intent = entities['intent']
+    datetime = entities['datetime']
+    message_body = entities['message_body']
+    location = entities['location']
+
+    subject = sanitize_input(message_body)
+    create_tuple(subject=subject, predicate="time", object=datetime)
+    create_tuple(subject=subject, predicate="location", object=location)
+
+    return context
+
+def findEvent(request):
+    context = request['context']
+    entities = request['entities']
+
+    return context
+
+
 #
 # def get_restaurants(food):
 #     '''
