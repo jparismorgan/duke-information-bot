@@ -1,15 +1,12 @@
 ####################################################################################################
 ######## Written for HackDuke 2016
-######## Credit must be given to Kevin He of TabDuke for the scraping format.
+######## Credit must be given to Kevin He of TabDuke for the scraping format and code architecture
 ####################################################################################################
-
-
 
 import requests
 import json
 import datetime
 import math
-
 
 
 desiredStops = ["4117202", "4146366", "4158202", "4098210", "4177628", "4177630",
@@ -58,7 +55,6 @@ altStopNames = {
     "Alexander Ave at Pace St Eastbound": "Alexander/Pace Eastbound",
     "Alexander Ave at Pace St Westbound": "Alexander/Pace Westbound"
 }
-
 
 DUKE_AGENCY_ID = '176';
 

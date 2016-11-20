@@ -1,4 +1,5 @@
 from google.appengine.ext import ndb
+import BusScraper
 
 class Person(ndb.Model):
     name = ndb.StringProperty()
@@ -78,6 +79,19 @@ def get_food(request):
             del context['food']
 
     return context
+
+def getBusTimes(request):
+    context = request['context']
+    entities = request['entities']
+    return_string = BusScraper.getBusTimes()
+    if return_string != None:
+        context['bus_times'] = return_string
+    else:
+        context['bus_times'] = "There seems to be a problem with Transloc. We will ask Samuel Jackson and get back to you."
+    return context
+
+
+
 
 
 # def get_event(request):
