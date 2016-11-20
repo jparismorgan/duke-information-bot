@@ -5,7 +5,7 @@ from wit import Wit
 import json
 import logging
 import json
-import action_processor
+#import action_processor
 
 # Import the Flask Framework
 from flask import Flask, request
@@ -90,13 +90,6 @@ def send_fb_message(user_id, msg):
     except urlfetch.Error as e:
         logging.error(e.message)
 
-def send(request, response):
-    # fb_id as session_id
-    fb_id = request['session_id']
-    text = response['text']
-    # send message
-    send_fb_message(fb_id, text)
-
 # def messaging_events(payload):
 #   """Generate tuples of (sender_id, message_text) from the
 #   provided payload.
@@ -129,7 +122,8 @@ def webhook():
     data = request.get_json()
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     message = data['entry'][0]['messaging'][0]['message']['text']
-    send_fb_message(sender, message[::-1])
+    # send_fb_message(sender, message[::-1])
+    client.run_actions(session_id=sender, message=message)
     # always return 200 to Facebook's original POST request so they know you handled their request
     return "OK", 200
 
@@ -161,9 +155,19 @@ def send(request, response):
     fb_id = request['session_id']
     text = response['text']
     # send message
+    logging.info(text)
     send_fb_message(fb_id, text)
 
-actions = {'send', send}
+def doAction(request):
+    context = request['context']
+    entities = request['entities']
+    return context
+
+actions = {'send': send,
+           'createEvent': doAction,
+           'findEvent': doAction,
+           'findFood': doAction
+           }
 
 # Setup Wit Client
 client = Wit(access_token=WIT_TOKEN, actions=actions)

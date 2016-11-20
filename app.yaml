@@ -10,6 +10,9 @@ libraries:
 - name: MySQLdb
   version: "latest"
 
+- name: ssl
+  version: 2.7.11
+
 env_variables:
   CLOUDSQL_CONNECTION_NAME: duke-information-bot:us-east1:myinstance
   CLOUDSQL_USER: root
