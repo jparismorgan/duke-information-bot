@@ -69,7 +69,6 @@ def page_not_found(e):
     """Return a custom 404 error."""
     return 'Sorry, Nothing at this URL.', 404
 
-"'ABP':['coffee', 'bakery', 'salad']}"
 
 @app.errorhandler(500)
 def application_error(e):
@@ -88,6 +87,7 @@ def send(request, response):
     logging.info(text)
     send_fb_message(fb_id, text)
 
+
 def first_entity_value(entities, entity):
     if entity not in entities:
         return None
@@ -105,7 +105,8 @@ actions = {'send': send,
            'createEvent': action_processor.dukeSearch,
            'findEvent': action_processor.dukeSearch,
            'find_location_of': action_processor.find_location_of,
-           'dukeSearch': action_processor.dukeSearch
+           'dukeSearch': action_processor.dukeSearch,
+           'getBusTimes': action_processor.getBusTimes,
            }
 
 # Setup Wit Client

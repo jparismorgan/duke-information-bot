@@ -139,6 +139,16 @@ def get_food(request):
 
     return context
 
+def dukeSearch(request):
+    context = request['context']
+    entities = request['entities']
+    query = first_entity_value(entities, 'search_phrase')
+    if query != None:
+        str.replace(query, ' ', '%20')
+    context['search_query'] = query
+    return context
+
+
 def getBusTimes(request):
     context = request['context']
     entities = request['entities']
