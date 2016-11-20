@@ -1,86 +1,21 @@
-## Python Flask Skeleton for Google App Engine
+## Inspiration
 
-A skeleton for building Python applications on Google App Engine with the
-[Flask micro framework](http://flask.pocoo.org).
+Google Knowledge graph is a powerful semantic web API that allows web scrapers to collect structured and machine readable data from unstructured data on the web, and it enables intelligent assistants like Google Now to answer questions about knowledge in a natural way. However, things like Google KG are rarely aware of specific knowledge about college campuses. They know when flights are coming, but not when your school bus is coming. Our chatbot aimed to assist students on discovering information on their campus via a simple messenger interface. It also allows students to share events to the campus community in a trusted environment.
 
-See our other [Google Cloud Platform github
-repos](https://github.com/GoogleCloudPlatform) for sample applications and
-scaffolding for other python frameworks and use cases.
+## What it does
 
-## Run Locally
-1. Install the [App Engine Python SDK](https://developers.google.com/appengine/downloads).
-See the README file for directions. You'll need python 2.7 and [pip 1.4 or later](http://www.pip-installer.org/en/latest/installing.html) installed too.
+FaceBook messenger bot that allows users to seek information about Duke University campus, such as restaurants, events, and bus schedules.
 
-2. Clone this repo with
+## How we built it
 
-   ```
-   git clone https://github.com/GoogleCloudPlatform/appengine-flask-skeleton.git
-   ```
-3. Install dependencies in the project's lib directory.
-   Note: App Engine can only import libraries from inside your project directory.
+- Python back-end with Flask framework
+- Google App Engine with Cloud Datastore for hosting and database management
+- Wit.AI for natural language processing
+- BeautifulSoup web scraper to scrape Duke restaurant information off campus website
+- TransLoc API to scrape current bus locations and calculate expected arrival time
 
-   ```
-   cd appengine-flask-skeleton
-   pip install -r requirements.txt -t lib
-   ```
-4. Run this project locally from the command line:
+## Team
 
-   ```
-   dev_appserver.py .
-   ```
-
-Visit the application [http://localhost:8080](http://localhost:8080)
-
-See [the development server documentation](https://developers.google.com/appengine/docs/python/tools/devserver)
-for options when running dev_appserver.
-
-## Deploy
-To deploy the application:
-
-1. Use the [Admin Console](https://appengine.google.com) to create a
-   project/app id. (App id and project id are identical)
-1. [Deploy the
-   application](https://developers.google.com/appengine/docs/python/tools/uploadinganapp) with
-
-   ```
-   appcfg.py update -A <your-project-id> -V v1 .
-   ```
-   
-   If this isn't your first deployment, you will need to set the new version as the default version with
-   
-   ```
-   appcfg.py set_default_version -V v1 -A <your-project-id>
-   ```
-
-1. Congratulations!  Your application is now live at your-app-id.appspot.com
-
-## Next Steps
-This skeleton includes `TODO` markers to help you find basic areas you will want
-to customize.
-
-### Relational Databases and Datastore
-To add persistence to your models, use
-[NDB](https://developers.google.com/appengine/docs/python/ndb/) for
-scale.  Consider
-[CloudSQL](https://developers.google.com/appengine/docs/python/cloud-sql)
-if you need a relational database.
-
-### Installing Libraries
-See the [Third party
-libraries](https://developers.google.com/appengine/docs/python/tools/libraries27)
-page for libraries that are already included in the SDK.  To include SDK
-libraries, add them in your app.yaml file. Other than libraries included in
-the SDK, only pure python libraries may be added to an App Engine project.
-
-### Feedback
-Star this repo if you found it useful. Use the github issue tracker to give
-feedback on this repo.
-
-## Contributing changes
-See [CONTRIB.md](CONTRIB.md)
-
-## Licensing
-See [LICENSE](LICENSE)
-
-## Author
-Logan Henriquez and Johan Euphrosine
+Paris Morgan - Duke
+Walter Huang - Case
+Adam Tache - Duke
