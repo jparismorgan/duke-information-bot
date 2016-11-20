@@ -123,6 +123,7 @@ def getBusTimes():
             logging.info(datetime.datetime.now())
             fromNow = arrival - datetime.datetime.now()
             logging.info(fromNow)
+            logging.info(datetime.now(pytz.timezone('America/New_York')))
             minutesFromNow = math.floor(fromNow.total_seconds()/float(60) )
             logging.info(minutesFromNow)
             arrivalEstimates[stop][route["name"]].append(minutesFromNow)
