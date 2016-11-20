@@ -1,5 +1,5 @@
 """`main` is the top level module for your Flask application."""
-
+import os
 # Import the Flask Framework
 from flask import Flask, request
 
@@ -26,7 +26,7 @@ def hello():
 def verify():
     #when the endpoint is registered as a webhook, it must echo back
     #the 'hub.challenge' value it receives in the query arguments
-    if request.args.get('hub.verify_token', '') == os.environ['VERIFY_TOKEN']:
+    if request.args.get('hub.verify_token', '') == FACEBOOK_WEBHOOK_VERIFY_TOKEN:
         return request.args.get('hub.challenge', '')
     else:
         return 'Error, wrong validation token'
